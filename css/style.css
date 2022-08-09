@@ -4,11 +4,13 @@
 
 body {
     margin: 0;
-    position: relative;
+    padding: 0;
 }
 
 .canvas-container {
     height: 100vh;
+    position: relative;
+    padding: 20px;
 }
 
 .options {
@@ -20,10 +22,15 @@ body {
 .download {
     position: absolute;
     left: 50%;
-    bottom: 5%;
+    bottom: 0%;
     transform: translate(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }
 
-canvas {
-    background-color: white;
+p {
+    margin: 0;
 }

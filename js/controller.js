@@ -23,8 +23,8 @@ function resetElOptions() {
 
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
+    gElCanvas.width = elContainer.offsetWidth - 40
+    gElCanvas.height = elContainer.offsetHeight - 40
 
     gCtx.fillStyle = 'white'
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)

@@ -10,26 +10,23 @@
 </head>
 
 <body onload="onInit()">
-    <div class="options">
-        <input type="color" onchange="onChangeColor(this.value)">
-        <select name="shapes" id="shapes" oninput="onChangeShape(this.value)">
-            <option value="line" selected>line</option>
-            <option value="square">square</option>
-            <option value="circle">circle</option>
-            <option value="triangle">triangle</option>
-        </select>
-    </div>
-
     <div class="canvas-container">
+        <div class="options">
+            <input type="color" onchange="onChangeColor(this.value)">
+            <select name="shapes" id="shapes" oninput="onChangeShape(this.value)">
+                <option value="line" selected>line</option>
+                <option value="square">square</option>
+                <option value="circle">circle</option>
+                <option value="triangle">triangle</option>
+            </select>
+        </div>
         <canvas height="400" width="400"></canvas>
-    </div>
-
-    <div class="download">
-        <a href="#" onclick="onDownload(this)" download="Canvas.png">Download the canvas</a>
-        <button class="btn" onclick="uploadImg()">Upload Canvas</button>
-        <p class="user-msg"></p>
-        <div class="share-container"></div>
-
+        <div class="download">
+            <a href="#" onclick="onDownload(this)" download="Canvas.png">Download the canvas</a>
+            <button class="btn" onclick="uploadImg()">Upload Canvas</button>
+            <p class="user-msg"></p>
+            <div class="share-container"></div>
+        </div>
     </div>
 
     <script src="js/controller.js"></script>
