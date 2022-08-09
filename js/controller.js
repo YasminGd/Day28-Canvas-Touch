@@ -222,6 +222,5 @@ function doUploadImg(imgDataUrl, onSuccess) {
 function onClear() {
     document.querySelector('.user-msg').innerText = ''
     document.querySelector('.share-container').innerText = ''
-    gCtx.fillStyle = 'white'
-    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
+    onInit()
 }

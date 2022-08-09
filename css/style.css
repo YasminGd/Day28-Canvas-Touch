@@ -14,13 +14,13 @@ body {
 }
 
 .options {
-    position: absolute;
+    position: fixed;
     left: 50%;
     transform: translate(-50%);
 }
 
 .download {
-    position: absolute;
+    position: fixed;
     left: 50%;
     bottom: 3%;
     transform: translate(-50%);
