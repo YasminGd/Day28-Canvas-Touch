@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    position: relative;
+}
+
+.canvas-container {
+    height: 100vh;
+}
+
+.options {
+    position: absolute;
+    /* background-color: blue; */
+    left: 50%;
+    transform: translate(-50%);
+}
