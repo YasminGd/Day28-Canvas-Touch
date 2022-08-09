@@ -11,7 +11,6 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
-    gCtx.fillStyle = 'black'
     addListeners()
     resetElOptions()
 }
@@ -28,6 +27,8 @@ function resizeCanvas() {
 
     gCtx.fillStyle = 'white'
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
+    gCtx.fillStyle = 'black'
+    resetElOptions()
 }
 
 function onChangeColor(color) {
@@ -222,5 +223,5 @@ function doUploadImg(imgDataUrl, onSuccess) {
 function onClear() {
     document.querySelector('.user-msg').innerText = ''
     document.querySelector('.share-container').innerText = ''
-    onInit()
+    resizeCanvas()
 }
