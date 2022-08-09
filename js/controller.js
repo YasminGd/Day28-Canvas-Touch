@@ -3,7 +3,6 @@ let gElCanvas
 let gCtx
 
 //gCtx is global
-let gCurrColor = 'black'
 let gShape = 'line'
 let gClicked = false
 let gPrevPos = null
@@ -12,13 +11,14 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
+    gCtx.fillStyle = 'black'
     addListeners()
     resetElOptions()
 }
 
 function resetElOptions() {
     const elColorInput = document.querySelector('[type="color"]')
-    elColorInput.value = gCurrColor
+    elColorInput.value = gCtx.strokeStyle
 }
 
 function resizeCanvas() {
@@ -31,7 +31,6 @@ function resizeCanvas() {
 }
 
 function onChangeColor(color) {
-    gCtx.strokeStyle = color
     gCtx.fillStyle = color
 }
 
@@ -98,6 +97,7 @@ function drawLine(pos) {
     const { x, y } = pos
     const size = getSize(pos) / 20
 
+    gCtx.strokeStyle = gCtx.fillStyle
     gCtx.beginPath()
     gCtx.lineWidth = size
     gCtx.moveTo(x, y)
@@ -111,9 +111,9 @@ function drawSquare(pos) {
     const size = getSize(pos)
 
     gCtx.beginPath()
+    gCtx.strokeStyle = 'black'
     gCtx.lineWidth = 2
     gCtx.rect(x, y, size, size)
-    gCtx.fillStyle = 'white'
     gCtx.fillRect(x, y, size, size)
     gCtx.stroke()
     gCtx.closePath()
@@ -124,9 +124,9 @@ function drawCircle(pos) {
     const size = getSize(pos) / 2
 
     gCtx.beginPath()
+    gCtx.strokeStyle = 'black'
     gCtx.lineWidth = 2
     gCtx.arc(x, y, size, 0, 2 * Math.PI)
-    gCtx.fillStyle = 'white'
     gCtx.fill()
     gCtx.stroke()
     gCtx.closePath()
@@ -135,13 +135,14 @@ function drawCircle(pos) {
 function drawTriangle(pos) {
     const { x, y } = pos
     const size = getSize(pos)
+
     gCtx.beginPath()
+    gCtx.strokeStyle = 'black'
     gCtx.lineWidth = 2
     gCtx.moveTo(x, y)
     gCtx.lineTo(x + size, y - size)
     gCtx.lineTo(x - size, y - size)
     gCtx.lineTo(x, y)
-    gCtx.fillStyle = 'white'
     gCtx.fill()
     gCtx.stroke()
     gCtx.closePath()
@@ -216,4 +217,11 @@ function doUploadImg(imgDataUrl, onSuccess) {
         .catch((err) => {
             console.error(err)
         })
+}
+
+function onClear() {
+    document.querySelector('.user-msg').innerText = ''
+    document.querySelector('.share-container').innerText = ''
+    gCtx.fillStyle = 'white'
+    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }

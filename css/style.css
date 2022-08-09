@@ -22,7 +22,7 @@ body {
 .download {
     position: absolute;
     left: 50%;
-    bottom: 0%;
+    bottom: 3%;
     transform: translate(-50%);
     display: flex;
     justify-content: center;
