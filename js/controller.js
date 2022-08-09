@@ -1,6 +1,8 @@
 'use strict'
 let gElCanvas
 let gCtx
+
+//gCtx is global
 let gCurrColor = 'black'
 let gShape = 'line'
 let gClicked = false
@@ -23,19 +25,27 @@ function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth
     gElCanvas.height = elContainer.offsetHeight
+
+    gCtx.fillStyle = 'white'
+    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function onChangeColor(color) {
-    gCurrColor = color
+    gCtx.strokeStyle = color
+    gCtx.fillStyle = color
 }
 
 function onChangeShape(shape) {
     gShape = shape
 }
-
+//resize
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
+
+    window.addEventListener('resize', () => {
+        resizeCanvas()
+    })
 }
 
 function addMouseListeners() {
@@ -78,39 +88,61 @@ function drawShape(pos) {
         case 'circle':
             drawCircle(pos)
             break
+        case 'triangle':
+            drawTriangle(pos)
+            break
     }
 }
 
 function drawLine(pos) {
     const { x, y } = pos
+    const size = getSize(pos) / 20
+
     gCtx.beginPath()
-    gCtx.lineWidth = 2
+    gCtx.lineWidth = size
     gCtx.moveTo(x, y)
     gCtx.lineTo(gPrevPos.x, gPrevPos.y)
-    gCtx.strokeStyle = gCurrColor
     gCtx.stroke()
     gCtx.closePath()
 }
 
 function drawSquare(pos) {
     const { x, y } = pos
+    const size = getSize(pos)
+
     gCtx.beginPath()
-    gCtx.rect(x, y, 20, 20)
-    gCtx.fillStyle = gCurrColor
-    gCtx.fillRect(x, y, 20, 20)
-    gCtx.strokeStyle = 'white'
+    gCtx.lineWidth = 2
+    gCtx.rect(x, y, size, size)
+    gCtx.fillStyle = 'white'
+    gCtx.fillRect(x, y, size, size)
     gCtx.stroke()
     gCtx.closePath()
 }
 
 function drawCircle(pos) {
     const { x, y } = pos
+    const size = getSize(pos) / 2
+
     gCtx.beginPath()
     gCtx.lineWidth = 2
-    gCtx.arc(x, y, 25, 0, 2 * Math.PI)
-    gCtx.fillStyle = gCurrColor
+    gCtx.arc(x, y, size, 0, 2 * Math.PI)
+    gCtx.fillStyle = 'white'
     gCtx.fill()
-    gCtx.strokeStyle = 'white'
+    gCtx.stroke()
+    gCtx.closePath()
+}
+
+function drawTriangle(pos) {
+    const { x, y } = pos
+    const size = getSize(pos)
+    gCtx.beginPath()
+    gCtx.lineWidth = 2
+    gCtx.moveTo(x, y)
+    gCtx.lineTo(x + size, y - size)
+    gCtx.lineTo(x - size, y - size)
+    gCtx.lineTo(x, y)
+    gCtx.fillStyle = 'white'
+    gCtx.fill()
     gCtx.stroke()
     gCtx.closePath()
 }
@@ -130,4 +162,58 @@ function getEvPos(ev) {
         }
     }
     return pos
+}
+
+function getSize(pos) {
+    const dx = Math.abs(pos.x - gPrevPos.x)
+    const dy = Math.abs(pos.y - gPrevPos.y)
+    const bigger = Math.max(dx, dy)
+
+    if (bigger > 100) return 200
+    else if (bigger > 75) return 150
+    else if (bigger > 50) return 100
+    else if (bigger > 25) return 50
+    else if (bigger > 10) return 20
+    else return 10
+}
+
+function onDownload(elLink) {
+    const data = gElCanvas.toDataURL()
+    elLink.href = data
+}
+
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
+    console.log(imgDataUrl);
+
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
+
+        document.querySelector('.share-container').innerHTML = `
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           Share   
+        </a>`
+    }
+    doUploadImg(imgDataUrl, onSuccess);
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
+
+    const formData = new FormData();
+    formData.append('img', imgDataUrl)
+
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then((url) => {
+            console.log('Got back live url:', url);
+            onSuccess(url)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
 }

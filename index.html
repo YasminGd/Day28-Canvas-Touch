@@ -16,12 +16,21 @@
             <option value="line" selected>line</option>
             <option value="square">square</option>
             <option value="circle">circle</option>
+            <option value="triangle">triangle</option>
         </select>
     </div>
+
     <div class="canvas-container">
         <canvas height="400" width="400"></canvas>
     </div>
 
+    <div class="download">
+        <a href="#" onclick="onDownload(this)" download="Canvas.png">Download the canvas</a>
+        <button class="btn" onclick="uploadImg()">Upload Canvas</button>
+        <p class="user-msg"></p>
+        <div class="share-container"></div>
+
+    </div>
 
     <script src="js/controller.js"></script>
     <script src="js/services/service.js"></script>

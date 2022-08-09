@@ -13,7 +13,17 @@ body {
 
 .options {
     position: absolute;
-    /* background-color: blue; */
     left: 50%;
     transform: translate(-50%);
+}
+
+.download {
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translate(-50%);
+}
+
+canvas {
+    background-color: white;
 }
